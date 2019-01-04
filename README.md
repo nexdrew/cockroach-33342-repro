@@ -22,7 +22,7 @@ To reproduce the error:
     $ ./02-load-schema.sh
     ```
 
-4. Run a query to produce an error
+4. Run the query to produce an error (will crash the `db1` Docker container, which will automatically restart)
 
     ```console
     $ ./03-run-query.sh
@@ -33,3 +33,5 @@ To reproduce the error:
     ```console
     $ ./04-stop-cockroach.sh
     ```
+
+You should be able to `rm -rf test-data` and then repeat the steps above.
