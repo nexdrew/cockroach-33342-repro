@@ -1,0 +1,51 @@
+version: "3"
+services:
+
+  db1:
+    image: "cockroachdb/cockroach:v2.1.3"
+    container_name: db1
+    hostname: db1
+    restart: on-failure
+    # -- deploy applies to `docker stack deploy` but not `docker-compose up`
+    # deploy:
+    #   restart_policy:
+    #     condition: on-failure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - "./test-data/db1:/cockroach/cockroach-data"
+    command: "start --insecure"
+    networks:
+      - testnet
+
+  db2:
+    image: "cockroachdb/cockroach:v2.1.3"
+    container_name: db2
+    hostname: db2
+    restart: on-failure
+    # ports:
+    #   - "26257:26257"
+    #   - "8080:8080"
+    volumes:
+      - "./test-data/db2:/cockroach/cockroach-data"
+    command: "start --insecure --join=db1"
+    networks:
+      - testnet
+
+  db3:
+    image: "cockroachdb/cockroach:v2.1.3"
+    container_name: db3
+    hostname: db3
+    restart: on-failure
+    # ports:
+    #   - "26257:26257"
+    #   - "8080:8080"
+    volumes:
+      - "./test-data/db3:/cockroach/cockroach-data"
+    command: "start --insecure --join=db1"
+    networks:
+      - testnet
+
+networks:
+  testnet:
